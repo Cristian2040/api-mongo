@@ -22,6 +22,48 @@ export const register = async ({ username, email, password }) => {
     }
 }
 
+// Nuevas funciones para gestionar usuarios
+// Mostrar todos los usuarios
+export const obtenerTodosLosUsuarios = async () => {
+    try {
+        const users = await User.find();
+        return mensajes(200, "Usuarios obtenidos correctamente", users);
+    } catch (error) {
+        return mensajes(400, "Error al obtener usuarios", error);
+    }
+}
+
+// Buscar usuario por ID
+export const obtenerUsuarioPorId = async (id) => {
+    try {
+        const user = await User.findById(id);
+        if (!user) return mensajes(404, "Usuario no encontrado");
+        return mensajes(200, "Usuario encontrado", user);
+    } catch (error) {
+        return mensajes(400, "Error al buscar usuario", error);
+    }
+}
+
+// Borrar usuario por ID
+export const borrarUsuarioPorId = async (id) => {
+    try {
+        await User.findByIdAndDelete(id);
+        return mensajes(200, "Usuario borrado correctamente");
+    } catch (error) {
+        return mensajes(400, "Error al borrar usuario", error);
+    }
+}
+
+// Actualizar usuario por ID
+export const actualizarUsuarioPorId = async (id, data) => {
+    try {
+        await User.findByIdAndUpdate(id, data);
+        return mensajes(200, "Usuario actualizado correctamente");
+    } catch (error) {
+        return mensajes(400, "Error al actualizar usuario", error);
+    }
+}
+
 export const login = async ({ username, password }) => {
 
 }
